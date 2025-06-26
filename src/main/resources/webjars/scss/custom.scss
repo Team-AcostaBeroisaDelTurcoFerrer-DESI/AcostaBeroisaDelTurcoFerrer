@@ -1,0 +1,94 @@
+/* Estilos personalizados para el sidebar y el contenido principal */
+@import "bootstrap"; /* Importa Bootstrap para usar sus estilos */
+
+ body {
+            display: flex; /* Para usar flexbox para el diseño de la página */
+            min-height: 100vh; /* Para que el body ocupe al menos el 100% de la altura de la ventana */
+        }
+        #sidebar {
+            width: 250px; /* Ancho del sidebar */
+            flex-shrink: 0; /* Evita que el sidebar se encoja */
+            transition: all 0.3s; /* Animación para el colapso */
+            background-color: #343a40; /* Color de fondo del sidebar (ejemplo) */
+            color: white; /* Color del texto del sidebar */
+        }
+        #content {
+            flex-grow: 1; /* El contenido ocupará el espacio restante */
+            padding: 20px;
+        }
+        /* Estilos para el sidebar colapsado */
+        #sidebar.collapsed {
+            margin-left: -250px; /* Oculta el sidebar a la izquierda */
+        }
+        /* Estilos para los enlaces del sidebar */
+        #sidebar .nav-link {
+            color: rgba(255, 255, 255, 0.75);
+            padding: 10px 15px;
+        }
+        #sidebar .nav-link:hover {
+            color: white;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        #sidebar .nav-link.active {
+            color: white;
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+.custom-toggle-btn {
+    border: none; /* Remove button border */
+    background: none; /* Remove button background */
+    padding: 0; /* Remove default button padding */
+    cursor: pointer; /* Keep pointer cursor */
+}
+
+.custom-toggle-btn:focus {
+    outline: none; /* Remove focus outline if desired */
+    box-shadow: none; /* Remove Bootstrap's default focus shadow */
+}
+
+.btn-icon {
+    width: 30px; /* Adjust this value to your desired image width */
+    height: auto; /* Maintain aspect ratio */
+    display: block; /* Ensures the image takes up its own space */
+}
+
+/* Estilos para los mensajes de error */
+        .error-message {
+            color: #dc3545; /* Rojo de Bootstrap para errores */
+            font-size: 0.875em; /* Tamaño de fuente más pequeño */
+            margin-top: 0.25rem; /* Espacio superior */
+        }
+        /* Estilos para el mensaje de "no resultados" */
+        .no-results {
+            color: #6c757d; /* Gris de Bootstrap */
+            margin-top: 1.5rem;
+        }  
+        /* Estilos para los mensajes de error de campos individuales */
+        .error-message {
+            color: #dc3545; /* Rojo de Bootstrap para errores */
+            font-size: 0.875em; /* Tamaño de fuente más pequeño */
+            margin-top: 0.25rem; /* Espacio superior */
+        }
+        /* Estilos para errores globales (del formulario completo) */
+        .global-errors {
+            color: #dc3545;
+            background-color: #f8d7da; /* Fondo rojo claro */
+            border: 1px solid #f5c2c7;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            border-radius: .375rem; /* Bordes redondeados */
+        }
+        .global-errors p {
+            margin-bottom: 0; /* Quita el margen inferior de los párrafos dentro del div */
+        }
+
+/* En tu archivo style.css o dentro de <style> */
+.column-fit-content {
+    width: auto; /* O width: 1%; para un ajuste más agresivo */
+    white-space: nowrap; /* Evita que el texto se divida en varias líneas */
+}
+
+/* Opcional: Asegura que la tabla se ajuste a su contenido */
+.table-auto-layout {
+    table-layout: auto;
+}
