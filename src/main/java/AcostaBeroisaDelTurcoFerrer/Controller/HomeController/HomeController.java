@@ -9,20 +9,21 @@ public class HomeController {
   
     @GetMapping("/") // Mapea la URL raíz del sitio
     public String homePage(Model model) {
-       return "index"; // Esto indica a Thymeleaf que renderice src/main/resources/templates/index.html
+       return "index"; 
     }
-
-    /*@GetMapping("/FamiliaBuscar") // Mapea la URL para buscar familias
+/*
+    @GetMapping("/FamiliaBuscar") 
     public String buscarFamiliaPage() {
         
-        return "familiaBuscar"; // Retorna el nombre de la plantilla (ej. familiaBuscar.html)
+        return "FamiliaBuscar"; 
     }
-
-    @GetMapping("/AsistidoBuscar") // Mapea la URL para buscar asistidos
-    public String buscarAsistidoPage() {
+   
+    @GetMapping("/FamiliaCRUD") 
+    public String buscarCRUDPage() {
         
-        return "asistidoBuscar"; // Retorna el nombre de la plantilla (ej. asistidoBuscar.html)
-    }*/
+        return "FamiliaCRUD"; 
+    }
+  */  
     
     
 }

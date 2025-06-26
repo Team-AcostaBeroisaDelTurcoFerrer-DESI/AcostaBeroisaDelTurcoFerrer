@@ -4,8 +4,7 @@
         <title>Centro de Asistencia DESI 2025</title>          
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <!-- Bootstrap CSS v5.2.1 -->                     
-		<link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}" />
+        <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}" />
 		<link rel="stylesheet" th:href="@{/css/custom.css}" />
           
     </head>
@@ -70,30 +69,45 @@
 <div id="content">
  <div class="container-fluid"> 
     
- <div class="row">    
-  <div class="col-12"> 
-    <h1>Crear</h1> 
+  <div class="row">    
+    <div class="col-12"> 
+        <h1>Crear</h1> 
 
-  <form th:action="@{/FamiliaCRUD}" th:object="${formBean}" method="post">
-           <!--  <input type="hidden" th:field="*{nroFamilia}" th:if="${formBean.nroFamilia != null}" /> -->
-    <div class="mb-3"> 
-     <label for="nombre" class="form-label">Nombre de Familia:</label>
-     <input type="text" id="nombre" th:field="*{nombre}" class="form-control"/>
-     <div th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}" class="invalid-feedback error-message">                               
-    </div>
+        <form th:action="@{/FamiliaCRUD}" th:object="${formBean}" method="post">
+            <div class="mb-3">
+                <label for="nombre" class="form-label">Nombre de Familia:</label>
+                <input type="text" id="nombre" th:field="*{nombre}" class="form-control"/>
+                <h2>Datos del Jefe de familia</h2>
+                <label for="jefeNombre" class="form-label">Nombre:</label>
+                <input type="text" id="jefeNombre" th:field="*{asistidos[0].nombre}" class="form-control"/>
 
+                <label for="jefeApellido" class="form-label">Apellido:</label>
+                <input type="text" id="jefeApellido" th:field="*{asistidos[0].apellido}" class="form-control"/>
 
+                <label for="jefeDni" class="form-label">DNI:</label>
+                <input type="text" id="jefeDni" th:field="*{asistidos[0].dni}" class="form-control"/>
 
+                <label for="jefeDireccion" class="form-label">Dirección:</label>
+                <input type="text" id="jefeDireccion" th:field="*{asistidos[0].direccion}" class="form-control"/>
 
+                <label for="jefeFechaNacimiento" class="form-label">Fecha de Nacimiento:</label>
+                <input type="date" id="jefeFechaNacimiento" th:field="*{asistidos[0].fechaNacimiento}" class="form-control"/>
 
-    <div class="d-grid gap-2 d-md-block mt-4">
-     <button type="submit" name="action" value="actionAceptar" class="btn btn-primary me-2">Aceptar</button>
-     <button type="submit" name="action" value="actionCancelar" class="btn btn-secondary">Cancelar</button>
-    </div>
-  </form> 
-    
- </div>
-</div>
+                <label for="jefeOcupacion" class="form-label">Ocupación:</label>			
+				 <input type="text" id="jefeOcupacion" th:field="*{asistidos[0].ocupacion}" class="form-control"/>
+				 
+                <div th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}" class="invalid-feedback error-message">
+                
+					
+				</div>
+            </div>
+
+            <div class="d-grid gap-2 d-md-block mt-4">
+                <button type="submit" name="action" value="actionAceptar" class="btn btn-primary me-2">Aceptar</button>
+                <button type="submit" name="action" value="actionCancelar" class="btn btn-secondary">Cancelar</button>
+            </div>
+        </form> </div>
+  </div>
 
 <script th:src="@{/webjars/bootstrap/5.3.3/js/bootstrap.bundle.min.js}"></script>
 <script>

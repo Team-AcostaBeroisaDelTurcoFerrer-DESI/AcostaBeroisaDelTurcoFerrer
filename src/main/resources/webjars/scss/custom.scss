@@ -81,3 +81,14 @@
         .global-errors p {
             margin-bottom: 0; /* Quita el margen inferior de los párrafos dentro del div */
         }
+
+/* En tu archivo style.css o dentro de <style> */
+.column-fit-content {
+    width: auto; /* O width: 1%; para un ajuste más agresivo */
+    white-space: nowrap; /* Evita que el texto se divida en varias líneas */
+}
+
+/* Opcional: Asegura que la tabla se ajuste a su contenido */
+.table-auto-layout {
+    table-layout: auto;
+}

@@ -1,42 +1,36 @@
 package AcostaBeroisaDelTurcoFerrer.Entities;
-import jakarta.persistence.*;// Importa de jakarta.persistence para Spring Boot 3+
-import java.time.LocalDate; // O java.util.Date si lo prefieres, pero LocalDate es más moderno
+import jakarta.persistence.*;
+import jakarta.persistence.DiscriminatorColumn; 
+import jakarta.persistence.DiscriminatorType;  
+import java.time.LocalDate; 
 
-// Clase base
+
 @Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public class Persona {
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "tipo_persona", discriminatorType = DiscriminatorType.STRING) 
+public abstract class Persona {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE) // O GenerationType.IDENTITY si tu DB lo soporta y quieres IDs autoincrementales
-    private Long id;
+@Id
+@GeneratedValue(strategy = GenerationType.IDENTITY) 
+private Long id;
+private String apellido;
+private String nombre;
+private String direccion;
+private Long dni;  
+private LocalDate fechaNacimiento;
+private String ocupacion;
 
-    
-    private String apellido;
-   
-    private String nombre;
-    
-    private String direccion;
-    
-    private String dni; // Considera si DNI debe ser String o Long, y si debe ser único
-   
-    private LocalDate fechaNacimiento;
-  
-    private String ocupacion;
+public Persona() {}
 
-    // Constructores, getters y setters
-    public Persona() {}
-
-    public Persona(String apellido, String nombre, String direccion, String dni, LocalDate fechaNacimiento, String ocupacion) {
-        this.apellido = apellido;
-        this.nombre = nombre;
-        this.direccion = direccion;
-        this.dni = dni;
-        this.fechaNacimiento = fechaNacimiento;
-        this.ocupacion = ocupacion;
-    }
+public Persona(String apellido, String nombre, String direccion, Long dni, LocalDate fechaNacimiento, String ocupacion) {
+    this.apellido = apellido;
+    this.nombre = nombre;
+    this.direccion = direccion;
+    this.dni = dni;
+    this.fechaNacimiento = fechaNacimiento;
+    this.ocupacion = ocupacion;
+}
     
-    // Getters y Setters
     public Long getId() {
         return id;
     }
@@ -69,11 +63,11 @@ public class Persona {
         this.direccion = direccion;
     }
 
-    public String getDni() {
+    public Long getDni() {
         return dni;
     }
 
-    public void setDni(String dni) {
+    public void setDni(Long dni) {
         this.dni = dni;
     }
 
