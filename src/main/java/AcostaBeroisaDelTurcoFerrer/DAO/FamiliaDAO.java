@@ -8,12 +8,9 @@ import java.util.List;
 @Repository
 public interface FamiliaDAO extends JpaRepository<Familia,Long> {
 	
-	List<Familia>findByNombre(String nombre);
-	
-	boolean existsByNombre(String nombre);
-	
-	boolean findByNombreAndNroFamilia(String nombre, Long nroFamilia);	
-	
-	List<Familia> findByNombreOrNroFamilia(String nombre,Long nroFamilia);
-	
+	List<Familia>findByNombre(String nombre);	
+	boolean existsByNombre(String nombre);	
+	boolean findByNombreAndNroFamilia(String nombre, Long nroFamilia);		
+	List<Familia> findByNombreOrNroFamilia(String nombre,Long nroFamilia);	
+	List<Familia> findByEstaActivaTrue();
 }

@@ -11,12 +11,13 @@ public class HomeController {
     public String homePage(Model model) {
        return "index"; 
     }
-/*
-    @GetMapping("/FamiliaBuscar") 
-    public String buscarFamiliaPage() {
+/* 
+    @GetMapping("/confirmacion") 
+    public String confirmacionPage() {
         
-        return "FamiliaBuscar"; 
+        return "confirmacion"; 
     }
+   
    
     @GetMapping("/FamiliaCRUD") 
     public String buscarCRUDPage() {

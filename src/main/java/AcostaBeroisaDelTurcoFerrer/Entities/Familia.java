@@ -33,7 +33,16 @@ public class Familia {
 
     @OneToMany(mappedBy = "familia", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<EntregaAsistencia> entregasAsistencia = new HashSet<>(); 
+    
+    @NotNull
+    private boolean estaActiva = true;
 
+	public boolean isEstaActiva() {
+		return estaActiva;
+	}
+	public void setEstaActiva(boolean estaActiva) {
+		this.estaActiva = estaActiva;
+	}
 	public Long getNroFamilia() {
 	    return nroFamilia;
 	}
@@ -64,7 +73,6 @@ public class Familia {
     this.nombre = nombre;
 	}
 	
-
     public List<Asistido> getAsistidos() {
 		return asistidos;
 	}
@@ -80,6 +88,10 @@ public class Familia {
         this.asistidos.add(a);
         a.setFamilia(this); 
     }
+	 public void removeAsistidos(Asistido a) {
+        this.asistidos.remove(a);
+        a.setFamilia(null); // Quita la relación bidireccional
+    }
 
     public Set<EntregaAsistencia> getEntregasAsistencia() {
         return entregasAsistencia;
@@ -91,13 +103,10 @@ public class Familia {
         entregasAsistencia.add(entrega);
         entrega.setFamilia(this);
     }	 
-    public void removeAsistidos(Asistido a) {
-        this.asistidos.remove(a);
-        a.setFamilia(null); // Quita la relación bidireccional
-    }
     public void removeEntregaAsistencia(EntregaAsistencia entrega) {
         entregasAsistencia.remove(entrega);
         entrega.setFamilia(null); 
     }
+	
 		
 }
