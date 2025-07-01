@@ -2,9 +2,7 @@ package AcostaBeroisaDelTurcoFerrer.Service;
 import AcostaBeroisaDelTurcoFerrer.DAO.AsistidoDAO; 
 import AcostaBeroisaDelTurcoFerrer.Entities.Asistido;
 import AcostaBeroisaDelTurcoFerrer.ExceptionPersonal.UncheckedException;
-
 import java.time.LocalDate;
-import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,16 +12,18 @@ public class AsistidoServiceImp implements AsistidoService {
 
     @Autowired
     private AsistidoDAO repoAsistido; 
-
+    @Override
+	public Asistido update(Asistido asistido) {   	         
+       return repoAsistido.save(asistido);
+	}
     @Override
     @Transactional
     public Asistido save(Asistido asistido) {
-
-        if (asistido.getId() == null && asistido.getFechaRegistro() == null) {
+    	
+      if (asistido.getId() == null && asistido.getFechaRegistro() == null) {
             asistido.setFechaRegistro(LocalDate.now());
         }
-
-       
+ 
         if (asistido.getDni() != null) {
             Asistido existingAsistido = repoAsistido.findByDni(asistido.getDni());
             if (existingAsistido != null && (asistido.getId() == null || !existingAsistido.getId().equals(asistido.getId()))) {
@@ -38,7 +38,7 @@ public class AsistidoServiceImp implements AsistidoService {
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<Asistido> findById(Long id) {
+    public Asistido findById(Long id) {
         return repoAsistido.findById(id);
     }
 
@@ -46,5 +46,8 @@ public class AsistidoServiceImp implements AsistidoService {
     @Transactional(readOnly = true)
     public Asistido findByDni(Long dni) {
         return repoAsistido.findByDni(dni);
-    }  
+    }
+
+	
+ 
 }
