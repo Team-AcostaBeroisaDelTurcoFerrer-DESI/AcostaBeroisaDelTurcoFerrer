@@ -1,16 +1,17 @@
 package AcostaBeroisaDelTurcoFerrer.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
-//import AcostaBeroisaDelTurcoFerrer.Controller.FamiliaController.BeansFamilySearch;
 import AcostaBeroisaDelTurcoFerrer.DAO.FamiliaDAO;
-import AcostaBeroisaDelTurcoFerrer.Entities.Asistido;
 import AcostaBeroisaDelTurcoFerrer.Entities.Familia;
 import AcostaBeroisaDelTurcoFerrer.ExceptionPersonal.CheckedException;
-import AcostaBeroisaDelTurcoFerrer.ExceptionPersonal.UncheckedException;
+
 
 @Service
 public class FamiliaServiceImp implements FamiliaService {
@@ -21,41 +22,30 @@ FamiliaDAO repo;
 AsistidoService serviceAsistido;
 
 @Override
-public List<Familia> getAll() {
-	return repo.findAll();
-}
-
-@Override
 @Transactional 
-public void save(Familia f) throws UncheckedException {
+public void save(Familia f) throws CheckedException {
+/*	
+Asistido existente = serviceAsistido.findByDni(f.getAsistidos().get(0).getDni());	
 
 if (f.getAsistidos() == null || f.getAsistidos().isEmpty()) {
- throw new UncheckedException ("Una familia debe tener al menos un integrante.");
+        throw new CheckedException("Una familia debe tener al menos un integrante.", "Familia sin integrantes");
 }
-if (f.getNroFamilia() == null) { 
- f.setFechaRegistro(LocalDate.now());
-}
+  
 
-for (Asistido asistido : f.getAsistidos()) {	  
- if (asistido.getFamilia() == null) {
-     asistido.setFamilia(f);
-} 
-if (asistido.getDni() != null) { 
-  Asistido existingAsistido = serviceAsistido.findByDni(asistido.getDni());          
-  if (existingAsistido != null && (asistido.getId() == null || !existingAsistido.getId().equals(asistido.getId()))) {
-     throw new UncheckedException("El DNI " + asistido.getDni() + " ya está registrado para otro integrante.");
- }
-}else{            
-  throw new IllegalArgumentException("El DNI del asistido no puede ser nulo.");
- }
-}
-String nombreFamilia = f.getNombre()+f.getAsistidos().get(0).getDni();
-f.setNombre(nombreFamilia);
-repo.save(f); 
+if (existente != null && (f.getAsistidos().get(0).getId() == null || !f.getAsistidos().get(0).equals(existente.getId()))) {            
+   throw new CheckedException("Ya existe un asistido registrado con el DNI: " + f.getAsistidos().get(0).getDni());
+   } */
+	
+serviceAsistido.save(f.getAsistidos().get(0));
+
+String n=f.getNombre();
+f.setNombre(n+f.getAsistidos().get(0).getDni());	
+f.setFechaRegistro(LocalDate.now());
+repo.save(f);
 }
 
 @Override
-public void update(Familia f) throws UncheckedException {
+public void update(Familia f) throws CheckedException {
 	repo.save(f);
 }
 
@@ -64,28 +54,20 @@ public Familia getBynroFamilia(Long nroFamilia) throws CheckedException {
             .orElseThrow(() -> new CheckedException("Familia con número " + nroFamilia + " no encontrada.", "nroFamilia"));
 }
 
-@Override
-public List<Familia> getByNombre(String Nombre) {
-	return repo.findByNombre(Nombre);	               
-}
 
 @Override
 @Transactional(readOnly = true)
-public List<Familia> findAllActivas() {
-    // Necesitaremos un método en el repositorio para esto
+public List<Familia> findAllActivas() {	
     return repo.findByEstaActivaTrue(); 
 }
 
 @Override
 @Transactional // Esta operación debe ser transaccional
-public void logicalErase(Long nroFamilia) {
+public void logicalErase(Long nroFamilia) throws CheckedException {
     Familia familia = repo.findById(nroFamilia)
-                                       .orElseThrow(() -> new UncheckedException("Familia con ID " + nroFamilia + " no encontrada para inactivar.", "nroFamilia"));
-    familia.setEstaActiva(false); // Marcar como inactiva
-    // Si necesitas que los asistidos de esa familia también se marquen como inactivos,
-    // deberías iterar sobre familia.getAsistidos() y setear asistido.setEstaActiva(false);
-    // y luego guardar la familia.
-    repo.save(familia); // Guardar el cambio de estado
+                                       .orElseThrow(() -> new CheckedException("Familia con ID " + nroFamilia + " no encontrada para inactivar.", "nroFamilia"));
+    familia.setEstaActiva(false); 
+    repo.save(familia); 
 }
 
 @Override
@@ -102,11 +84,31 @@ public void deleteFamilia(Long nroFamilia) {
 
 @Override
 @Transactional
-public void activarFamilia(Long nroFamilia) {//Reactivacion de una familia
+public void activarFamilia(Long nroFamilia) throws CheckedException {//Reactivacion de una familia
      Familia familia = repo.findById(nroFamilia)
-                                       .orElseThrow(() -> new UncheckedException("Familia con ID " + nroFamilia + " no encontrada para activar.", "nroFamilia"));
+                                       .orElseThrow(() -> new CheckedException("Familia con ID " + nroFamilia + " no encontrada para activar.", "nroFamilia"));
     familia.setEstaActiva(true);
      repo.save(familia);
  }
+
+
+@Override
+public List<Familia> buscarFamilias(Long nroFamilia, String nombre) {
+	 List<Familia> resultados = new ArrayList<>();
+
+     if (nroFamilia != null) {
+         // Si busca por número de familia
+         Optional<Familia> familiaOptional = repo.findByNroFamilia(nroFamilia);
+         familiaOptional.ifPresent(resultados::add); // Añade si existe
+     } else if (nombre != null && !nombre.trim().isEmpty()) {
+         // Si busca por nombre
+         resultados = repo.findByNombreContainingIgnoreCase(nombre);
+     } else {
+         // Si no se proporciona ningún criterio específico, podrías devolver todo
+         // o una lista vacía, dependiendo de tu lógica de negocio
+         resultados = repo.findAll();
+     }
+     return resultados;
+}
 		
 }

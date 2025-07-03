@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import AcostaBeroisaDelTurcoFerrer.Entities.Asistido;
 import AcostaBeroisaDelTurcoFerrer.Entities.Familia;
 import AcostaBeroisaDelTurcoFerrer.ExceptionPersonal.CheckedException;
-import AcostaBeroisaDelTurcoFerrer.ExceptionPersonal.UncheckedException;
 import AcostaBeroisaDelTurcoFerrer.Service.FamiliaService;
 
 @Controller
@@ -28,12 +27,13 @@ public String verIntegrantes(@PathVariable("nroFamilia") Long nroFamilia, ModelM
 		}
           
      modelo.addAttribute("familia", familia);
-     for (Asistido asistido : familia.getAsistidos()) {               
-        modelo.addAttribute("asistidos", asistido);
-      }  
-                      
+     for (Asistido asistido : familia.getAsistidos()) { 
+    	if (asistido.isEstaActiva()==true) {		
+    	modelo.addAttribute("asistidos", asistido);	
+    	}        
+      }                        
   return "Familia/verIntegrantes";
-  } catch (UncheckedException e) {
+  } catch (CheckedException e) {
     modelo.addAttribute("error", e.getMessage());            
     return "error";
   } catch (Exception e) {            

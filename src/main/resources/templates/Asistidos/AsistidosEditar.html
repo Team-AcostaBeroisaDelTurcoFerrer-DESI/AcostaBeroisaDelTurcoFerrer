@@ -103,8 +103,16 @@
                 <label for="FechaNacimiento" class="form-label">Fecha de Nacimiento:</label>
                 <input type="date" id="jefeFechaNacimiento" th:field="*{fechaNacimiento}" class="form-control"/>
 
-                <label for="Ocupacion" class="form-label">Ocupación:</label>			
-				<input type="text" id="jefeOcupacion" th:field="*{ocupacion}" class="form-control"/>
+            <div class="mb-3">
+                  <label for="ocupacion" class="form-label">Ocupación:</label>
+               <select class="form-select" id="ocupacion" th:field="*{ocupacion}">
+        <option value="">-- Seleccione una ocupación --</option> <option value="Trabajador" th:selected="*{ocupacion} == 'Trabajador'">Trabajador</option>
+        <option value="Estudiante" th:selected="*{ocupacion} == 'Estudiante'">Estudiante</option>
+        <option value="Desocupado" th:selected="*{ocupacion} == 'Desocupado'">Desocupado</option>
+        <option value="Otros" th:selected="*{ocupacion} == 'Otros'">Otros</option>
+    </select>
+              <div class="text-danger" th:if="${#fields.hasErrors('ocupacion')}" th:errors="*{ocupacion}"></div>
+            </div>
 				 
 				 
 				

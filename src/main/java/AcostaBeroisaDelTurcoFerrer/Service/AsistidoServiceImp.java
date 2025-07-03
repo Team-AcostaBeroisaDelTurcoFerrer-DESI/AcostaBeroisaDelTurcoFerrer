@@ -1,7 +1,8 @@
 package AcostaBeroisaDelTurcoFerrer.Service;
 import AcostaBeroisaDelTurcoFerrer.DAO.AsistidoDAO; 
 import AcostaBeroisaDelTurcoFerrer.Entities.Asistido;
-import AcostaBeroisaDelTurcoFerrer.ExceptionPersonal.UncheckedException;
+import AcostaBeroisaDelTurcoFerrer.ExceptionPersonal.CheckedException;
+
 import java.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,9 +17,9 @@ public class AsistidoServiceImp implements AsistidoService {
 	public Asistido update(Asistido asistido) {   	         
        return repoAsistido.save(asistido);
 	}
-    @Override
-    @Transactional
-    public Asistido save(Asistido asistido) {
+@Override
+@Transactional
+public Asistido save(Asistido asistido) throws CheckedException {
     	
       if (asistido.getId() == null && asistido.getFechaRegistro() == null) {
             asistido.setFechaRegistro(LocalDate.now());
@@ -27,26 +28,31 @@ public class AsistidoServiceImp implements AsistidoService {
         if (asistido.getDni() != null) {
             Asistido existingAsistido = repoAsistido.findByDni(asistido.getDni());
             if (existingAsistido != null && (asistido.getId() == null || !existingAsistido.getId().equals(asistido.getId()))) {
-                throw new UncheckedException("El DNI " + asistido.getDni() + " ya está registrado.", "dni");
+                throw new CheckedException("El DNI " + asistido.getDni() + " ya está registrado.", "dni");
             }
         } else {
-            throw new UncheckedException("El DNI del asistido no puede ser nulo.", "dni");
+            throw new CheckedException("El DNI del asistido no puede ser nulo.", "dni");
         }
 
-        return repoAsistido.save(asistido);
+       return repoAsistido.save(asistido);
     }
 
-    @Override
-    @Transactional(readOnly = true)
-    public Asistido findById(Long id) {
+@Override
+@Transactional(readOnly = true)
+public Asistido findById(Long id) {
         return repoAsistido.findById(id);
-    }
+}
 
-    @Override
-    @Transactional(readOnly = true)
-    public Asistido findByDni(Long dni) {
-        return repoAsistido.findByDni(dni);
+@Override
+ public void logicalErase(Long id) throws CheckedException {
+    Asistido asistido = repoAsistido.findById(id);
+    if (asistido == null) {
+        throw new CheckedException("Asistido no encontrado con ID: " + id, "id");
     }
+    asistido.setEstaActiva(false);
+    
+    repoAsistido.save(asistido);
+}
 
 	
  

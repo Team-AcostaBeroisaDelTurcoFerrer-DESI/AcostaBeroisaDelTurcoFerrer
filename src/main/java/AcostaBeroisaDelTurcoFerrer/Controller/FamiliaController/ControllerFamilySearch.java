@@ -1,23 +1,18 @@
 package AcostaBeroisaDelTurcoFerrer.Controller.FamiliaController;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-//import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-//import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-//import AcostaBeroisaDelTurcoFerrer.Entities.Asistido;
 import AcostaBeroisaDelTurcoFerrer.Entities.Familia;
-import AcostaBeroisaDelTurcoFerrer.ExceptionPersonal.CheckedException;
 import AcostaBeroisaDelTurcoFerrer.Service.FamiliaService;
-import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping("/Familia/FamiliaBuscar") 
@@ -33,37 +28,56 @@ public String preparaForm(Model modelo) {
 	
 BeansFamilySearch form =  new BeansFamilySearch();
 modelo.addAttribute(FORM_BEAN,form);
-List<Familia> familiasActivas= servicioFamilia.findAllActivas();
-modelo.addAttribute("familias", familiasActivas); // 
 return "/Familia/FamiliaBuscar";
 }
      
 @PostMapping
-public String handleFamiliaForm(@Valid @ModelAttribute(FORM_BEAN) BeansFamilySearch  formBean,BindingResult result,@RequestParam String action,Model model) throws CheckedException {
+public String procesarBusqueda(
+        @RequestParam(value = "tipoBusqueda", required = false) String tipoBusqueda,
+        @RequestParam(value = "valorBusquedaNro", required = false) Long valorBusquedaNro,
+        @RequestParam(value = "valorBusquedaNombre", required = false) String valorBusquedaNombre,
+        @RequestParam(value = "filtroNombre", required = false) String filtroNombre, 
+        @RequestParam(value = "ordenFecha", required = false) String ordenFecha,
+        Model model) {
 
-if (result.hasErrors()) {
-model.addAttribute("familias", servicioFamilia.getAll()); 
-return "/Familia/FamiliaBuscar";
+    List<Familia> familiasEncontradas = Collections.emptyList();
+
+  
+    if ("nroFamilia".equals(tipoBusqueda) && valorBusquedaNro != null) {
+        familiasEncontradas = servicioFamilia.buscarFamilias(valorBusquedaNro, null);
+    } else if ("nombre".equals(tipoBusqueda) && valorBusquedaNombre != null && !valorBusquedaNombre.trim().isEmpty()) {
+        familiasEncontradas = servicioFamilia.buscarFamilias(null, valorBusquedaNombre);
+    } else {       
+       familiasEncontradas = servicioFamilia.findAllActivas(); 
+        model.addAttribute("warningMessage", "Por favor, selecciona un criterio de búsqueda y proporciona un valor.");
+    }
+
+  
+    List<Familia> familiasFiltradas = familiasEncontradas;
+
+    if (filtroNombre != null && !filtroNombre.trim().isEmpty()) {
+        familiasFiltradas = familiasFiltradas.stream()
+                .filter(f -> f.getNombre() != null && f.getNombre().toLowerCase().contains(filtroNombre.toLowerCase()))
+                .collect(Collectors.toList());
+    }
+
+    if (ordenFecha != null && !familiasFiltradas.isEmpty()) {
+        if ("asc".equals(ordenFecha)) {
+            familiasFiltradas.sort(Comparator.comparing(Familia::getFechaRegistro, Comparator.nullsLast(Comparator.naturalOrder())));
+        } else if ("desc".equals(ordenFecha)) {
+            familiasFiltradas.sort(Comparator.comparing(Familia::getFechaRegistro, Comparator.nullsFirst(Comparator.reverseOrder())));
+        }
+    }
+
+    model.addAttribute("familias", familiasFiltradas);
+  
+    model.addAttribute("tipoBusqueda", tipoBusqueda);
+    model.addAttribute("valorBusquedaNro", valorBusquedaNro);
+    model.addAttribute("valorBusquedaNombre", valorBusquedaNombre);
+    model.addAttribute("filtroNombre", filtroNombre);
+    model.addAttribute("ordenFecha", ordenFecha);
+
+    return "Familia/FamiliaBuscar"; 
 }
-switch (action) {
-  case "actionBuscar": List<Familia> familiasEncontradas;	
-    Familia familiaEncontrada;
-    if (formBean.getNroFamilia() != null) {
-    familiaEncontrada = servicioFamilia.getBynroFamilia((formBean.getNroFamilia())); 
-    model.addAttribute("familias", familiaEncontrada);
-    }else if (formBean.getNombre() != null && !formBean.getNombre().trim().isEmpty()) {
-          familiasEncontradas = servicioFamilia.getByNombre(formBean.getNombre()); 
-          model.addAttribute("Familias", familiasEncontradas);
-          } else {
-             familiasEncontradas = servicioFamilia.getAll();
-            }
-    model.addAttribute(FORM_BEAN, formBean);
-    return "/Familia/FamiliaBuscar";
-  case "actionRegistrar": return "redirect:/Familia/FamiliaCrear";
-  case "actionCancelar": return "redirect:/";
-  default: model.addAttribute("familias", servicioFamilia.getAll()); 
-           return "/Familia/FamiliaBuscar";
-                      
 }
-}
-}
+

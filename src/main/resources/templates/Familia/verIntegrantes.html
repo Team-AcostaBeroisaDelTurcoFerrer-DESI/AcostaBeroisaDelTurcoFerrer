@@ -54,6 +54,7 @@
 	 </div>
 	 
 	</nav>
+	
  <div id="content">
 	
 	<div class="container">
@@ -87,7 +88,7 @@
 		            </thead>
 		            <tbody>
 		                <tr th:each="asistido : ${familia.asistidos}">
-                          <th:block th:if="${asistido != null}">
+                          <th:block th:if="${asistido != null and asistido.isEstaActiva != false}">
                           <td th:text="${asistido.id}"></td>
                           <td th:text="${asistido.dni}"></td>
 						  <td th:text="${asistido.apellido}"></td>

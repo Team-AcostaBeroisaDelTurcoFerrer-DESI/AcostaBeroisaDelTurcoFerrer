@@ -7,6 +7,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @DiscriminatorValue("ASISTIDO") 
@@ -16,6 +17,15 @@ public class Asistido extends Persona {
     @JoinColumn(name ="nroFamilia", referencedColumnName = "nroFamilia", nullable = true) 
     private Familia familia;
     private LocalDate fechaRegistro;
+    @NotNull
+    private boolean estaActiva = true;
+
+    public boolean isEstaActiva() {
+        return estaActiva;
+    }
+    public void setEstaActiva(boolean estaActiva) {
+        this.estaActiva = estaActiva;
+    }
 
     public LocalDate getFechaRegistro() {
         return fechaRegistro;

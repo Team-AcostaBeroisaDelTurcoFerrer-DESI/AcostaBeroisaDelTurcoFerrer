@@ -82,22 +82,29 @@
                 <input type="text" id="nombre" th:field="*{familia.nombre}" class="form-control"/>
                 <h2>Datos del nuevo integrante</h2>
                 <label for="Nombre" class="form-label">Nombre:</label>
-                <input type="text" id="jefeNombre" th:field="*{nombre}" class="form-control"/>
+                <input type="text" id="Nombre" th:field="*{nombre}" class="form-control"/>
 
                 <label for="Apellido" class="form-label">Apellido:</label>
-                <input type="text" id="jefeApellido" th:field="*{apellido}" class="form-control"/>
+                <input type="text" id="Apellido" th:field="*{apellido}" class="form-control"/>
 
                 <label for="Dni" class="form-label">DNI:</label>
-                <input type="text" id="jefeDni" th:field="*{dni}" class="form-control"/>
+                <input type="text" id="Dni" th:field="*{dni}" class="form-control"/>
 
                 <label for="Direccion" class="form-label">Dirección:</label>
-                <input type="text" id="jefeDireccion" th:field="*{direccion}" class="form-control"/>
+                <input type="text" id="Direccion" th:field="*{direccion}" class="form-control"/>
 
                 <label for="FechaNacimiento" class="form-label">Fecha de Nacimiento:</label>
-                <input type="date" id="jefeFechaNacimiento" th:field="*{fechaNacimiento}" class="form-control"/>
-
-                <label for="Ocupacion" class="form-label">Ocupación:</label>			
-				<input type="text" id="jefeOcupacion" th:field="*{ocupacion}" class="form-control"/>
+                <input type="date" id="FechaNacimiento" th:field="*{fechaNacimiento}" class="form-control"/>
+<div class="mb-3">
+    <label for="ocupacion" class="form-label">Ocupación:</label>
+    <select class="form-select" id="ocupacion" th:field="*{ocupacion}">
+        <option value="">-- Seleccione una ocupación --</option> <option value="Trabajador" th:selected="*{ocupacion} == 'Trabajador'">Trabajador</option>
+        <option value="Estudiante" th:selected="*{ocupacion} == 'Estudiante'">Estudiante</option>
+        <option value="Desocupado" th:selected="*{ocupacion} == 'Desocupado'">Desocupado</option>
+        <option value="Otros" th:selected="*{ocupacion} == 'Otros'">Otros</option>
+    </select>
+    <div class="text-danger" th:if="${#fields.hasErrors('ocupacion')}" th:errors="*{ocupacion}"></div>
+</div>
 				 
 				 
 				
