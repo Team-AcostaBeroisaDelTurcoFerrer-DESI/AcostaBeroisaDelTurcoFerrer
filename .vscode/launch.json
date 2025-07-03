@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-AcostaBeroisaDelTurcoFerrerApplication<AcostaBeroisaDelTurcoFerrer>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "AcostaBeroisaDelTurcoFerrer.AcostaBeroisaDelTurcoFerrerApplication",
+            "projectName": "AcostaBeroisaDelTurcoFerrer",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

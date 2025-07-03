@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <title>Centro de Asistencia DESI 2025</title>          
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}" />
+		<link rel="stylesheet" th:href="@{/css/custom.css}" />
+          
+    </head>
+<body>
+
+<nav id="sidebar" class="d-flex flex-column p-3">
+ <a href="#" class="h5 text-white text-decoration-none mb-3">TUTI 2025</a>
+ 
+  <ul class="nav nav-pills flex-column mb-auto">
+    <li class="nav-item"><a th:href="@{/}" class="nav-link">
+      <i class="bi bi-table me-2"></i>Home</a>
+    </li>
+	  
+    <li>
+      <a href="#submenuFamilias" data-bs-toggle="collapse" class="nav-link d-flex justify-content-between align-items-center">
+	    <span><i class="bi bi-speedometer2 me-2"></i> Familias</span>
+	    <i class="bi bi-chevron-down ms-auto"></i> </a>
+	      <div class="collapse" id="submenuFamilias">
+	       <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+	        <li><a th:href="@{/Familia/FamiliaBuscar}" class="nav-link text-white-50 ps-4">Buscar Familia</a></li>       
+		      <li><a th:href="@{/Familia/FamiliaCrear}" class="nav-link text-white-50 ps-4">Crear Familia</a></li>                      
+	       </ul>		 
+	      </div>
+	  </li>
+
+    <li>
+     <a href="#" class="nav-link"><i class="bi bi-table me-2"></i> Recetas</a>
+    </li>
+    <li>
+     <a href="#" class="nav-link"><i class="bi bi-grid-fill me-2"></i> Preparaciones</a>        
+    </li>
+    <li>
+     <a href="#" class="nav-link"><i class="bi bi-person-circle me-2"></i>Alimentos</a>               
+    </li>
+  </ul>
+   
+
+ <div class="dropdown">
+   <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+   <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">
+   <strong>Usuario</strong></a>
+   
+   <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
+     <li><a class="dropdown-item" href="#">Nuevo Proyecto...</a></li>
+     <li><a class="dropdown-item" href="#">Configuración</a></li>
+     <li><a class="dropdown-item" href="#">Perfil</a></li>
+     <li><hr class="dropdown-divider"></li>
+     <li><a class="dropdown-item" href="#">Cerrar Sesión</a></li>
+   </ul>
+ </div>
+ 
+</nav>
+
+<div class="row">    
+ <div class="col-12  ">    
+  <button id="sidebarToggle" class="mb-3 custom-toggle-btn">
+  <img src="/Imagenes/puntos.png" class="btn-icon">
+  </button>
+ </div>
+</div>
+
+<div id="content">
+<div class="container-fluid">    
+<div class="row">    
+ <div class="col-12"> 
+	<form th:action="@{/Familia/FamiliaEditar}" th:object="${formBean}" method="post">
+	    <input type="hidden" th:field="*{nroFamilia}" th:if="${formBean.nroFamilia != null}" />
+
+	    <div class="mb-3" th:if="${formBean.nroFamilia != null}">
+	        <label for="nroFamiliaDisplay" class="form-label">Número de Familia:</label>
+	        <input type="text" class="form-control" id="nroFamiliaDisplay"
+	               th:value="${formBean.nroFamilia}" readonly />
+	        </div>
+
+	    <div class="mb-3">
+	        <label for="nombre" class="form-label">Nombre de Familia:</label>
+	        <input type="text" id="nombre" th:field="*{nombre}" class="form-control"
+	               th:classappend="${#fields.hasErrors('nombre')} ? 'is-invalid' : ''"/>
+	        <div th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}" class="invalid-feedback error-message"></div>
+	    </div>
+
+	    <div th:if="${formBean.nroFamilia == null}">
+	        <hr/>
+	        <h2>Datos del Jefe de Familia</h2>
+	        </div>
+
+	    <div class="d-grid gap-2 d-md-block mt-4">
+	        <button type="submit" name="action" value="actionAceptar" class="btn btn-primary me-2">Aceptar</button>
+	        <button type="submit" name="action" value="actionCancelar" class="btn btn-secondary">Cancelar</button>
+	    </div>
+	</form>
+ </div>
+</div>
+
+<script th:src="@{/webjars/bootstrap/5.3.3/js/bootstrap.bundle.min.js}"></script>
+<script>
+    document.getElementById('sidebarToggle').addEventListener('click', function() {
+    document.getElementById('sidebar').classList.toggle('collapsed');
+     });
+</script>
+
+</body>
+
+</html>
