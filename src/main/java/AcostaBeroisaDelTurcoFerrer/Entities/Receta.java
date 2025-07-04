@@ -13,7 +13,7 @@ public class Receta {
     private Long id;	
     private String nombre;
     private String descripcion;
-    
+    private boolean isActive = true;
  
     @OneToMany(mappedBy = "receta", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Preparacion> preparaciones = new ArrayList<>(); 
@@ -72,6 +72,31 @@ public class Receta {
 	               ", name='" + nombre + '\'' +
 	               ", price=" + descripcion +
 	               '}';
-	    } 
+	        
+	    }
+
+	 public Long getId() {
+		 return id;
+	 }
+
+	 public void setId(Long id) {
+		 this.id = id;
+	 }
+
+	 public Set<ItemsReceta> getItemsRecetas() {
+		 return itemsRecetas;
+	 }
+
+	 public void setItemsRecetas(Set<ItemsReceta> itemsRecetas) {
+		 this.itemsRecetas = itemsRecetas;
+	 }
+
+	 public boolean isActive() {
+		 return isActive;
+	 }
+
+	 public void setActive(boolean isActive) {
+		 this.isActive = isActive;
+	 } 
 
 }
