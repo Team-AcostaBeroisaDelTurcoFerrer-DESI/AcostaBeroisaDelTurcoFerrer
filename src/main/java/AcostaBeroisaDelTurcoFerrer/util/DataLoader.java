@@ -36,7 +36,7 @@ public class DataLoader implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         System.out.println("Cargando datos de prueba...");
-        cargarDatosDePrueba(20, 4); 
+        //cargarDatosDePrueba(20, 4); 
         System.out.println("Datos de prueba cargados exitosamente.");
     }
 

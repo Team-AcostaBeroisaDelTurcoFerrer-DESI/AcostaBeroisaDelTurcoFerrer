@@ -9,9 +9,10 @@ public class ItemsReceta {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
    
-    private int cantidad;    
+    private double cantidad;    
     private int calorias; 
-
+    private boolean isActive = true;
+    
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "receta_id") 
     private Receta receta;
@@ -38,11 +39,11 @@ public class ItemsReceta {
         this.id = id;
     }
 
-    public int getCantidad() {
+    public double getCantidad() {
         return cantidad;
     }
 
-    public void setCantidad(int cantidad) {
+    public void setCantidad(double cantidad) {
         this.cantidad = cantidad;
     }
 
@@ -69,4 +70,13 @@ public class ItemsReceta {
     public void setIngrediente(Ingredientes ingrediente) {
         this.ingrediente = ingrediente;
     }
+
+	public boolean isActive() {
+		return isActive;
+	}
+
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
+	}
+    
 }
