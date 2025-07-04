@@ -10,30 +10,26 @@ public class ItemsReceta {
     private Long id;
    
     private int cantidad;    
-    private int calorias; // Esta caloría puede ser calculada (cantidad * calorias_ingrediente)
+    private int calorias; 
 
-    // Lado propietario de la relación ManyToOne con Receta
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "receta_id") // Columna de clave foránea en items_receta que referencia a Receta
+    @JoinColumn(name = "receta_id") 
     private Receta receta;
 
-    // Lado propietario de la relación ManyToOne con Ingrediente
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ingrediente_id") // Columna de clave foránea en items_receta que referencia a Ingrediente
+    @JoinColumn(name = "ingrediente_id")
     private Ingredientes ingrediente;
 
-    // Constructores
     public ItemsReceta() {}
 
     public ItemsReceta(Receta receta, Ingredientes ingrediente, int cantidad) {
         this.receta = receta;
         this.ingrediente = ingrediente;
         this.cantidad = cantidad;
-        // Calcular calorias si es necesario, o setearla desde fuera
-        this.calorias = cantidad * ingrediente.getCalorias(); // Ejemplo de cálculo
+     
+        this.calorias = cantidad * ingrediente.getCalorias(); 
     }
 
-    // Getters y Setters
     public Long getId() {
         return id;
     }

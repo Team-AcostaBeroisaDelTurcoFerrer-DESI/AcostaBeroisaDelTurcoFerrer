@@ -6,25 +6,17 @@ import java.time.LocalDate;
 
 public class Preparacion {
 	
-	@Id // Marca este campo como la clave primaria
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-generación de IDs
+	@Id 
+    @GeneratedValue(strategy = GenerationType.IDENTITY) 
 	private Long Id;
-	
-	// Relación ManyToOne: Muchas Preparaciones pueden pertenecer a una Receta
-    // 'optional = true' indica que la relación es opcional (0 o 1 receta)
-    // '@JoinColumn' especifica la columna de clave foránea en la tabla Preparacion
-    @ManyToOne(fetch = FetchType.LAZY) // Usar LAZY para evitar carga innecesaria
-    @JoinColumn(name = "receta_id", nullable = true) // 'nullable = true' permite que no tenga Receta
+
+    @ManyToOne(fetch = FetchType.LAZY) 
+    @JoinColumn(name = "receta_id", nullable = true) 
 	private Receta receta;
     
-	// Relación OneToOne: Una Preparacion tiene una EntregaAsistencia (o ninguna)
-    // mappedBy indica que el lado propietario de la relación es 'preparacion' en EntregaAsistencia
-    // Optional. Esto significa que una Preparacion puede existir sin una EntregaAsistencia.
-    // CascadeType.ALL para propagar operaciones (ej. si borro la preparacion, borro la entrega)
     @OneToOne(mappedBy = "preparacion", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = true)
     private EntregaAsistencia entregaAsistencia;
 	
-
 	private LocalDate fechaCoccion;
 	private int totalRacionesPreparadas;
 	private int stockRacionesRestantes;
@@ -40,8 +32,7 @@ public class Preparacion {
 		this.stockRacionesRestantes = stockRacionesRestantes;
 	}
 	
-	
-	// Método de conveniencia para establecer la relación bidireccional
+
     public void setEntregaAsistencia(EntregaAsistencia entregaAsistencia) {
         if (entregaAsistencia != null) {
             entregaAsistencia.setPreparacion(this);

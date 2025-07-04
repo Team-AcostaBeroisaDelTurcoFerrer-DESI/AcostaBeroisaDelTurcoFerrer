@@ -11,9 +11,7 @@ public class BeansAsistidos extends BeansPersonas {
     private LocalDate fechaRegistro;
     private Familia familia;  
     private Long id;
-    
-    
-    
+      
     public Long getId() {
 		return id;
 	}

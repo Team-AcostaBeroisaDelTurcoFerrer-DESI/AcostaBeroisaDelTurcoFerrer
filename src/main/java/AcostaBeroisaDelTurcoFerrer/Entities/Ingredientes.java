@@ -4,29 +4,23 @@ import jakarta.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
-//Clase base
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "tipo_ingrediente", discriminatorType = DiscriminatorType.STRING)
-@DiscriminatorValue("INGREDIENTE_BASE") // Opcional: valor para la clase base si se pueden instanciar
+@DiscriminatorValue("INGREDIENTE_BASE") 
 public class Ingredientes {
 
  @Id
- @GeneratedValue(strategy = GenerationType.IDENTITY) // IDENTITY suele ser una buena opción para SINGLE_TABLE
+ @GeneratedValue(strategy = GenerationType.IDENTITY) 
  private Long id;
 
- 
  private String nombre;
  
  private int calorias;
 
-//Relación OneToMany con la entidad de unión ItemsReceta
- // mappedBy indica que el lado propietario de la relación es 'ingrediente' en ItemsReceta
  @OneToMany(mappedBy = "ingrediente", cascade = CascadeType.ALL, orphanRemoval = true)
  private Set<ItemsReceta> itemsRecetas = new HashSet<>();
  
- 
- // Constructores, getters y setters
  public Ingredientes() {}
 
  public Ingredientes(String nombre, int calorias) {
@@ -34,7 +28,6 @@ public class Ingredientes {
      this.calorias = calorias;
  }
 
- // Getters y Setters
  public Long getId() {
      return id;
  }

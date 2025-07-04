@@ -12,8 +12,7 @@ public interface FamiliaDAO extends JpaRepository<Familia,Long> {
 	List<Familia> findByEstaActivaTrue();
 	
     Optional<Familia> findByNroFamilia(Long nroFamilia);
-
-    // Método para buscar por nombre (ignorando mayúsculas/minúsculas y parcial)
+  
     List<Familia> findByNombreContainingIgnoreCase(String nombre);
 	List<Familia>findByNombre(String nombre);	
 	

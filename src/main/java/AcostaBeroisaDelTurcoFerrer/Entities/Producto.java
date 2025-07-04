@@ -4,7 +4,7 @@ import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 
 @Entity
-@DiscriminatorValue("PRODUCTO") // Valor para la columna discriminadora cuando es un Producto
+@DiscriminatorValue("PRODUCTO") 
 public class Producto extends Ingredientes {
 
 	
@@ -12,7 +12,7 @@ public class Producto extends Ingredientes {
 	
     private double precioActual;
 
-    // Constructores, getters y setters
+
     public Producto() {
         super();
     }

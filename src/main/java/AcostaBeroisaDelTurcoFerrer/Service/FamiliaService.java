@@ -7,11 +7,6 @@ import java.util.List;
 public interface FamiliaService {
 	
     Familia getBynroFamilia(Long nroFamilia) throws CheckedException;	
-
-    
-    //List<Familia> getByNombre(String Nombre);
-    // Método de búsqueda principal
-    // Los parámetros son opcionales porque solo se usará uno a la vez para la búsqueda inicial
 	
 	List<Familia> buscarFamilias(Long nroFamilia, String nombre);
 	List<Familia> findAllActivas();		

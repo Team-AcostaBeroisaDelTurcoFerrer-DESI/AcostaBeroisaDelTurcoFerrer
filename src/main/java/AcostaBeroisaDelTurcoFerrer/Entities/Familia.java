@@ -1,6 +1,7 @@
 package AcostaBeroisaDelTurcoFerrer.Entities;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -90,7 +91,7 @@ public class Familia {
     }
 	 public void removeAsistidos(Asistido a) {
         this.asistidos.remove(a);
-        a.setFamilia(null); // Quita la relación bidireccional
+        a.setFamilia(null); 
     }
 
     public Set<EntregaAsistencia> getEntregasAsistencia() {
@@ -107,6 +108,13 @@ public class Familia {
         entregasAsistencia.remove(entrega);
         entrega.setFamilia(null); 
     }
-	
-		
+    public LocalDate getUltimaAsistencia() {
+       
+        return entregasAsistencia.stream()
+            .map(EntregaAsistencia::getFecha) 
+            .max(Comparator.naturalOrder())   
+            .orElse(null);                   
+   
+}
+			
 }

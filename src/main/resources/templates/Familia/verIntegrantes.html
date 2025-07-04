@@ -79,20 +79,31 @@
 		            <thead class="table-dark">
 		                <tr>
 							<th>ID</th>
-		                    <th>DNI</th>
+					        <th>DNI</th>
 							<th>Apellido</th>
-		                    <th>Nombre</th>		                    
+							<th>Nombre</th>	
+							<th>Fecha de Nacimiento</th>
+							<th>Direccion</th>			
+							<th>Ocupacion</th>
+							<th>Fecha de Registro</th>
+							<th>Estado</th>
+							<th>Familia</th>								                    
 							<th>Acciones</th>
-							
 		                </tr>
 		            </thead>
 		            <tbody>
 		                <tr th:each="asistido : ${familia.asistidos}">
                           <th:block th:if="${asistido != null and asistido.isEstaActiva != false}">
-                          <td th:text="${asistido.id}"></td>
-                          <td th:text="${asistido.dni}"></td>
-						  <td th:text="${asistido.apellido}"></td>
-                          <td th:text="${asistido.nombre}"></td> 
+							<td th:text="${asistido.id}"></td>
+							<td th:text="${asistido.dni}"></td>
+							<td th:text="${asistido.apellido}"></td>
+							<td th:text="${asistido.nombre}"></td> 
+							<td th:text="${#temporals.format(asistido.fechaNacimiento, 'dd-MM-yyyy')}"></td>
+							<td th:text="${asistido.direccion}"></td>
+							<td th:text="${asistido.ocupacion}"></td>
+							<td th:text="${#temporals.format(asistido.fechaRegistro, 'dd-MM-yyyy')}"></td>
+							<td th:text="${asistido.isEstaActiva ? 'Activo' : 'Inactivo'}"></td>
+							<td th:text="${asistido.familia.nombre}"></td>
 						  <td>
 						      <a th:href="@{/Asistidos/AsistidosEditar/{id}(id=${asistido.id})}" class="btn btn-warning btn-xs">Editar</a>
 						      <a th:href="@{/Asistidos/AsistidosBorrar/{id}(id=${asistido.id})}" class="btn btn-danger btn-xs">Eliminar</a>							  

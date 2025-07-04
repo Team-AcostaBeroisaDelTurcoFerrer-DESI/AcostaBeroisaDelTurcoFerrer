@@ -26,7 +26,7 @@ private FamiliaService servicioFamilia;
 @GetMapping
 public String preparaForm(Model modelo) {	
 	
-BeansFamiliaBuscar form =  new BeansFamiliaBuscar();
+BeansFamilia form =  new BeansFamilia();
 modelo.addAttribute(FORM_BEAN,form);
 return "/Familia/FamiliaBuscar";
 }

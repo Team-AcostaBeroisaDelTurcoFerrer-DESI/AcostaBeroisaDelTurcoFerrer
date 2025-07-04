@@ -148,17 +148,13 @@ public String inactivarFamilia(@PathVariable(NRO_FAMILIA) Long nroFamilia,//POST
 }
 @PostMapping("/eliminar/{nroFamilia}")
 public String eliminarFamiliaFisicamente(@PathVariable(NRO_FAMILIA) Long nroFamilia,//POST BORRADO FISICO (Solo Administrador) 
-		                                       RedirectAttributes redirectAttributes) throws CheckedException {
-    // ** Aquí debes implementar tu lógica de verificación de permisos del administrador **
-    // Por ahora, solo mostraremos un mensaje.
-    boolean esAdministrador = false; // Simula la verificación de permisos
+		                                       RedirectAttributes redirectAttributes) throws CheckedException {   
+    boolean esAdministrador = false; 
 
     if (esAdministrador) {
         try {
-            // Si la eliminación física de asistidos debe ocurrir en cascada,
-            // tu configuración @OneToMany(cascade = CascadeType.ALL) lo manejará
-            // cuando elimines la Familia.
-            servicioFamilia.deleteFamilia(nroFamilia); // Este método borraría físicamente
+            
+            servicioFamilia.deleteFamilia(nroFamilia); 
             redirectAttributes.addFlashAttribute(EXITO_MESSAGE, "Familia eliminada físicamente de la base de datos.");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute(ERROR_MESSAGE, "Error al eliminar físicamente la familia: " + e.getMessage());
@@ -181,20 +177,6 @@ public String activarFamilia(@PathVariable(NRO_FAMILIA) Long nroFamilia,//POST P
     }
     return "redirect:/FamiliaBuscar";
  }
-/*
-@GetMapping("/confirmacion") // Esta es la URL a la que se redirige
-public String confirmacionMensaje(Model modelo, @ModelAttribute("exitoMessage") String exitoMessage) {
-    if (exitoMessage == null || exitoMessage.isEmpty()) {
-        // Si no hay mensaje de éxito (ej: alguien accede directamente), redirigir a un lugar seguro
-        return "redirect:/Familia/FamiliaBuscar"; // O tu página principal
-    }
-    modelo.addAttribute("message", exitoMessage);
-    modelo.addAttribute("redirectTo", "/Familia/FamiliaBuscar"); // La URL a la que finalmente se redirigirá
-    modelo.addAttribute("delay", 3000); // 3 segundos de retardo (en milisegundos)
-    // --- ¡CAMBIO CLAVE AQUÍ! ---
-    // Como confirmacion.html está directamente en templates/, la ruta es solo el nombre del archivo (sin extensión)
-    return "redirect:/confirmacion";
-}*/
 
 }
 

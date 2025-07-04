@@ -24,18 +24,7 @@ AsistidoService serviceAsistido;
 @Override
 @Transactional 
 public void save(Familia f) throws CheckedException {
-/*	
-Asistido existente = serviceAsistido.findByDni(f.getAsistidos().get(0).getDni());	
 
-if (f.getAsistidos() == null || f.getAsistidos().isEmpty()) {
-        throw new CheckedException("Una familia debe tener al menos un integrante.", "Familia sin integrantes");
-}
-  
-
-if (existente != null && (f.getAsistidos().get(0).getId() == null || !f.getAsistidos().get(0).equals(existente.getId()))) {            
-   throw new CheckedException("Ya existe un asistido registrado con el DNI: " + f.getAsistidos().get(0).getDni());
-   } */
-	
 serviceAsistido.save(f.getAsistidos().get(0));
 
 String n=f.getNombre();
@@ -62,7 +51,7 @@ public List<Familia> findAllActivas() {
 }
 
 @Override
-@Transactional // Esta operación debe ser transaccional
+@Transactional 
 public void logicalErase(Long nroFamilia) throws CheckedException {
     Familia familia = repo.findById(nroFamilia)
                                        .orElseThrow(() -> new CheckedException("Familia con ID " + nroFamilia + " no encontrada para inactivar.", "nroFamilia"));
@@ -71,20 +60,16 @@ public void logicalErase(Long nroFamilia) throws CheckedException {
 }
 
 @Override
-@Transactional // Esta operación debe ser transaccional
+@Transactional 
 public void deleteFamilia(Long nroFamilia) {
-    // Opcional: Puedes verificar si la familia existe antes de intentar borrar
-    // Familia familia = familiaRepository.findById(nroFamilia)
-    //                                   .orElseThrow(() -> new AppUncheckedException("Familia con ID " + nroFamilia + " no encontrada para eliminar.", "nroFamilia"));
     
-    // La eliminación física es directa
     repo.deleteById(nroFamilia); 
 }
 
 
 @Override
 @Transactional
-public void activarFamilia(Long nroFamilia) throws CheckedException {//Reactivacion de una familia
+public void activarFamilia(Long nroFamilia) throws CheckedException {
      Familia familia = repo.findById(nroFamilia)
                                        .orElseThrow(() -> new CheckedException("Familia con ID " + nroFamilia + " no encontrada para activar.", "nroFamilia"));
     familia.setEstaActiva(true);
@@ -97,15 +82,14 @@ public List<Familia> buscarFamilias(Long nroFamilia, String nombre) {
 	 List<Familia> resultados = new ArrayList<>();
 
      if (nroFamilia != null) {
-         // Si busca por número de familia
+         
          Optional<Familia> familiaOptional = repo.findByNroFamilia(nroFamilia);
-         familiaOptional.ifPresent(resultados::add); // Añade si existe
+         familiaOptional.ifPresent(resultados::add); 
      } else if (nombre != null && !nombre.trim().isEmpty()) {
-         // Si busca por nombre
+        
          resultados = repo.findByNombreContainingIgnoreCase(nombre);
      } else {
-         // Si no se proporciona ningún criterio específico, podrías devolver todo
-         // o una lista vacía, dependiendo de tu lógica de negocio
+        
          resultados = repo.findAll();
      }
      return resultados;
