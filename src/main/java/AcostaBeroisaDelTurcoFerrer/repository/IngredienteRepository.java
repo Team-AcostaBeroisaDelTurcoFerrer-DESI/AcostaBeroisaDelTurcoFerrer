@@ -1,4 +1,4 @@
-package AcostaBeroisaDelTurcoFerrer.DAO;
+package AcostaBeroisaDelTurcoFerrer.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

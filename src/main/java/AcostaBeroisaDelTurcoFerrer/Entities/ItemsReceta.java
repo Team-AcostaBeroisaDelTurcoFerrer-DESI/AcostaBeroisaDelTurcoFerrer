@@ -1,20 +1,20 @@
 package AcostaBeroisaDelTurcoFerrer.Entities;
+
 import jakarta.persistence.*;
 
 @Entity
-
 public class ItemsReceta {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-   
-    private double cantidad;    
-    private int calorias; 
-    private boolean isActive = true;
-    
+
+    private double cantidad;
+    private int calorias;
+    private boolean active = true;
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "receta_id") 
+    @JoinColumn(name = "receta_id")
     private Receta receta;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -22,15 +22,17 @@ public class ItemsReceta {
     private Ingredientes ingrediente;
 
     public ItemsReceta() {}
-
+    public boolean isActive() {
+        return active;
+    }
     public ItemsReceta(Receta receta, Ingredientes ingrediente, int cantidad) {
         this.receta = receta;
         this.ingrediente = ingrediente;
         this.cantidad = cantidad;
-     
-        this.calorias = cantidad * ingrediente.getCalorias(); 
+        this.calorias = cantidad * ingrediente.getCalorias();
     }
 
+    // Getters y Setters
     public Long getId() {
         return id;
     }
@@ -43,8 +45,8 @@ public class ItemsReceta {
         return cantidad;
     }
 
-    public void setCantidad(double cantidad) {
-        this.cantidad = cantidad;
+    public void setCantidad(double d) {
+        this.cantidad = d;
     }
 
     public int getCalorias() {
@@ -71,12 +73,17 @@ public class ItemsReceta {
         this.ingrediente = ingrediente;
     }
 
-	public boolean isActive() {
-		return isActive;
+    @Override
+    public String toString() {
+        return "ItemsReceta{" +
+                "id=" + id +
+                ", cantidad=" + cantidad +
+                ", calorias=" + calorias +
+                ", receta=" + (receta != null ? receta.getNombre() : "null") +
+                ", ingrediente=" + (ingrediente != null ? ingrediente.getNombre() : "null") +
+                '}';
+    }
+	public void setActive(boolean active) {
+		this.active = active;
 	}
-
-	public void setActive(boolean isActive) {
-		this.isActive = isActive;
-	}
-    
 }

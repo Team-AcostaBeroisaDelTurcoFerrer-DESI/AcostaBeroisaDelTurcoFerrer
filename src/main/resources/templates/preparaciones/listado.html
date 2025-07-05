@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Listado de Preparaciones</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+<h2>Listado de Preparaciones</h2>
+<a href="/preparaciones/nueva">Nueva Preparación</a>
+<table border="1">
+    <thead>
+        <tr>
+            <th>Fecha</th>
+            <th>Receta</th>
+            <th>Raciones</th>
+            <th>Stock</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="p : ${preparaciones}">
+            <td th:text="${p.fechaCoccion}"></td>
+            <td th:text="${p.receta.nombre}"></td>
+            <td th:text="${p.totalRacionesPreparadas}"></td>
+            <td th:text="${p.stockRacionesRestantes}"></td>
+            <td>
+                <a th:href="@{'/preparaciones/eliminar/' + ${p.id}}">Eliminar</a>
+            </td>
+        </tr>
+    </tbody>
+</table>
+</body>
+</html>

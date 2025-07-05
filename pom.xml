@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.AcostaBeroisaDelTurcoFerrer</groupId>
-	<artifactId>AcostaBeroisaDelTurcoFerrer</artifactId>
+	<artifactId>AcostaBeroisaDelTurcoFerrer-Test</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>AcostaBeroisaDelTurcoFerrer</name>
+	<name>AcostaBeroisaDelTurcoFerrer-Test</name>
 	<description>proyecto desi 2025</description>
 	<url/>
 	<licenses>

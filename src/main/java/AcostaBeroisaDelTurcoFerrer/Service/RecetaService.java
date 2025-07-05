@@ -10,5 +10,6 @@ public interface RecetaService {
 	Receta updateReceta(RecetaDTO recetaDTO, Long id);
 	Receta saveReceta(RecetaDTO recetaDTO);
 	List<RecetaListadoDTO> getReceta(String nombre, Integer minCalorias,Integer maxCalorias);
+	List<Receta> listarRecetas();
 	Receta deleteReceta(Long id);
 }

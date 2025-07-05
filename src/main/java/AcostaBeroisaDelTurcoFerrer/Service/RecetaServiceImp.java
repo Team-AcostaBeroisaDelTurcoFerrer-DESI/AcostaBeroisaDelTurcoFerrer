@@ -8,8 +8,7 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import AcostaBeroisaDelTurcoFerrer.DAO.IngredienteRepository;
-import AcostaBeroisaDelTurcoFerrer.DAO.RecetaRepository;
+import AcostaBeroisaDelTurcoFerrer.repository.*;
 import AcostaBeroisaDelTurcoFerrer.DTO.IngredienteRecetaDTO;
 import AcostaBeroisaDelTurcoFerrer.DTO.RecetaDTO;
 import AcostaBeroisaDelTurcoFerrer.DTO.RecetaListadoDTO;
@@ -26,7 +25,7 @@ public class RecetaServiceImp implements RecetaService {
 	
 	@Override
 	public Receta updateReceta(RecetaDTO recetaDTO, Long id) {
-		Receta receta = recetaRepository.findByIdAndIsActiveTrue(id)
+		Receta receta = recetaRepository.findByIdAndActiveTrue(id)
 				.orElseThrow(()->new RuntimeException("Receta no encontrada"));
 		
 		receta.setDescripcion(recetaDTO.getDescripcion());
@@ -108,11 +107,19 @@ public class RecetaServiceImp implements RecetaService {
 
 	@Override
 	public Receta deleteReceta(Long id) {
-	    Receta receta = recetaRepository.findByIdAndIsActiveTrue(id)
+	    Receta receta = recetaRepository.findByIdAndActiveTrue(id)
 	            .orElseThrow(() -> new RuntimeException("Receta no encontrada o ya eliminada"));
 
 	    receta.setActive(false);
 	    return recetaRepository.save(receta);
+	}
+
+	@Override
+	public List<Receta> listarRecetas() {
+		return recetaRepository.findAll()
+		        .stream()
+		        .filter(r -> r.isActive())
+		        .toList();
 	}
 
 }
