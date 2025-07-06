@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Listado de Recetas</title>
+    <style>
+        table {
+            width: 90%;
+            margin: 20px auto;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #aaa;
+            padding: 10px;
+        }
+
+        th {
+            background-color: #eee;
+        }
+
+        h2 {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<h2>Listado de Recetas</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Descripción</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="receta : ${recetas}">
+            <td th:text="${receta.nombre}">Nombre</td>
+            <td th:text="${receta.descripcion}">Descripción</td>
+        </tr>
+    </tbody>
+</table>
+<div class="acciones">
+    <a th:href="@{/api/recetas/nueva}">+ Nueva Receta</a>
+</div>
+</body>
+</html>
